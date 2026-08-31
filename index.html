@@ -431,6 +431,24 @@ const fmtEUR = v => (v===null||v===undefined||isNaN(v)) ? "—" :
 const fmtPct = v => (v===null||v===undefined||isNaN(v)) ? "—" :
   v.toLocaleString('pt-PT', {maximumFractionDigits:1}) + "%";
 
+// A data é sempre guardada internamente em ISO (AAAA-MM-DD, para ordenação/cálculos e para JSON/CSV);
+// só a apresentação no ecrã usa o formato português DD-MM-AAAA.
+function isoToDisplayDate(iso){
+  if(!iso) return '';
+  const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(!m) return '';
+  return `${m[3]}-${m[2]}-${m[1]}`;
+}
+function displayToIsoDate(disp){
+  const m = disp.trim().match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+  if(!m) return null;
+  const day = Number(m[1]), month = Number(m[2]), year = Number(m[3]);
+  if(month<1||month>12||day<1||day>31) return null;
+  const dt = new Date(year, month-1, day);
+  if(dt.getFullYear()!==year || dt.getMonth()!==month-1 || dt.getDate()!==day) return null;
+  return `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+}
+
 function sumCat(obj){ return Object.values(obj).reduce((a,b)=>a+(Number(b)||0),0); }
 
 function computeRow(i){
@@ -676,10 +694,26 @@ function render(){
     if(row.date && row.date.length === 7) row.date = row.date + '-15'; // migra AAAA-MM antigo para AAAA-MM-DD
 
     const tdMonth = document.createElement('td'); tdMonth.className='month-col';
-    const inpDate = document.createElement('input'); inpDate.type='date';
-    inpDate.value = row.date || '';
+    const inpDate = document.createElement('input'); inpDate.type='text'; inpDate.inputMode='numeric';
+    inpDate.placeholder = 'dd-mm-aaaa'; inpDate.maxLength = 10;
+    inpDate.value = isoToDisplayDate(row.date);
     inpDate.className='month-input';
-    inpDate.onchange = e=>{ row.date = e.target.value; render(); };
+    inpDate.oninput = e=>{
+      let v = e.target.value.replace(/[^\d]/g,'').slice(0,8);
+      if(v.length>4) v = v.slice(0,2)+'-'+v.slice(2,4)+'-'+v.slice(4);
+      else if(v.length>2) v = v.slice(0,2)+'-'+v.slice(2);
+      e.target.value = v;
+    };
+    inpDate.onblur = e=>{
+      const val = e.target.value.trim();
+      if(val === ''){ row.date = ''; }
+      else{
+        const iso = displayToIsoDate(val);
+        if(iso) row.date = iso;
+      }
+      render();
+    };
+    inpDate.addEventListener('keydown', e=>{ if(e.key==='Enter') e.target.blur(); });
     tdMonth.appendChild(inpDate);
 
     const prevDated = [...state.rows.slice(0,i)].reverse().find(r=>r.date);
@@ -698,8 +732,15 @@ function render(){
       const td = document.createElement('td');
       td.setAttribute('data-label', key);
       const inp = document.createElement('input'); inp.type='text'; inp.inputMode='decimal';
-      inp.value = (obj[key] === 0 || obj[key] === undefined) ? '' : obj[key];
-      inp.oninput = e=>{ obj[key]=parseFloat(e.target.value.replace(',','.'))||0; refreshCalc(); };
+      inp.value = (obj[key] === 0 || obj[key] === undefined) ? '' : String(obj[key]).replace('.', ',');
+      inp.oninput = e=>{
+        if(e.target.value.includes('.')){
+          const pos = e.target.selectionStart;
+          e.target.value = e.target.value.replace(/\./g, ',');
+          e.target.setSelectionRange(pos, pos);
+        }
+        obj[key]=parseFloat(e.target.value.replace(',','.'))||0; refreshCalc();
+      };
       inp.addEventListener('keydown', e=>{ if(e.key==='Enter') e.target.blur(); });
       td.appendChild(inp); return td;
     }
