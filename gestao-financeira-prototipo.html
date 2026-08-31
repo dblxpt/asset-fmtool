@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestão Financeira — Protótipo</title>
+<title>Gestão Financeira Pessoal: Receitas, Despesas e Poupança</title>
+<meta name="description" content="Ferramenta gratuita de gestão financeira pessoal: regista receitas e despesas, calcula a poupança mensal automaticamente e prepara-te para investir.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -55,7 +56,7 @@
   }
   header p{
     color:var(--ink-soft);
-    max-width:62ch;
+    max-width:none;
     line-height:1.55;
     margin:0;
     font-size:0.84rem;
@@ -209,7 +210,7 @@
     position:static;
     background:var(--paper);
     text-align:left;
-    min-width:118px;
+    min-width:98px;
   }
   td.month-col{font-weight:500;}
   tbody tr{border-bottom:1px solid var(--line);}
@@ -269,7 +270,7 @@
     text-align:left;
     font-family:'Public Sans', sans-serif;
     font-weight:500;
-    width:110px;
+    width:88px;
     font-size:0.78rem;
   }
   .pos{color:var(--green);}
@@ -329,8 +330,8 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>Gestão financeira — protótipo mensal</h1>
-    <p>Uma linha por mês. Preenches rendimentos (fixos e extra) e saldos das contas; a poupança é calculada pela variação de património, não por categorização de despesas. As colunas são exemplificativas — edita o nome, remove ou acrescenta conforme a tua situação.</p>
+    <h1>Gestão Financeira Pessoal: Receitas, Despesas, Poupança e Investimento</h1>
+    <p>Uma ferramenta gratuita de gestão financeira pessoal para organizares as tuas receitas e despesas mês a mês e perceberes, sem esforço, quanto poupas — o primeiro passo antes de começares a investir. Em vez de teres de categorizar cada despesa (o que ninguém mantém a longo prazo), preenches os rendimentos (fixos e extra) e os saldos das contas; a poupança é calculada automaticamente pela variação do teu património. As colunas são exemplificativas — edita o nome, remove ou acrescenta conforme a tua situação financeira.</p>
   </header>
 
   <div class="panel">
@@ -650,7 +651,7 @@ function render(){
 
   const monthTh = document.createElement('th'); monthTh.rowSpan=2; monthTh.className='month-col';
   const monthLabelWrap = document.createElement('div');
-  monthLabelWrap.style.display='flex'; monthLabelWrap.style.alignItems='center'; monthLabelWrap.style.gap='5px';
+  monthLabelWrap.style.display='flex'; monthLabelWrap.style.alignItems='center'; monthLabelWrap.style.justifyContent='center'; monthLabelWrap.style.gap='5px';
   const monthLabelText = document.createElement('span'); monthLabelText.textContent='Mês';
   monthLabelWrap.appendChild(monthLabelText);
   const monthInfo = document.createElement('span');
@@ -667,7 +668,7 @@ function render(){
   groupRow.appendChild(groupHeaderCell('Contas', state.accountCats.length, 'accountCats',
     'Inclui contas à ordem e a prazo. Os juros de contas a prazo são normalmente tão reduzidos que não entram no cálculo de rentabilidade de investimentos — servem aqui apenas para refletir o património total.'));
   groupRow.appendChild(groupHeaderCell('Cálculo automático', 5, null));
-  const rowActTh = document.createElement('th'); rowActTh.rowSpan=2; rowActTh.textContent='Ações'; rowActTh.style.fontWeight='600'; rowActTh.style.fontSize='0.72rem'; rowActTh.style.color='var(--ink-soft)'; groupRow.appendChild(rowActTh);
+  const rowActTh = document.createElement('th'); rowActTh.rowSpan=2; rowActTh.setAttribute('aria-label','Ações'); rowActTh.style.fontWeight='600'; rowActTh.style.fontSize='0.72rem'; rowActTh.style.color='var(--ink-soft)'; groupRow.appendChild(rowActTh);
 
   function catCell(name, group){
     const th = document.createElement('th');
