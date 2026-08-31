@@ -1,4 +1,4 @@
-# Asset-FMTool — Gestão Financeira (Protótipo)
+# Widget-FM — Gestão Financeira (Protótipo)
 
 Ferramenta de teste para gestão financeira mensal: registas rendimentos (fixos e extra) e saldos de contas, e a poupança é calculada automaticamente pela variação de património — sem precisares de categorizar despesas.
 
@@ -13,7 +13,7 @@ Este repositório está configurado para publicar automaticamente via **GitHub P
 https://dblxpt.github.io/asset-fmtool/
 ```
 
-(Pode levar alguns minutos após o primeiro push para o link ficar ativo — ver o separador *Actions* do repositório para o estado do deployment.)
+(O projeto está a ser renomeado para **widget-fm** — quando o repositório for renomeado, o link do GitHub Pages passa automaticamente a `https://dblxpt.github.io/widget-fm/`, com redirecionamento do link antigo durante algum tempo.)
 
 ## Estado
 
