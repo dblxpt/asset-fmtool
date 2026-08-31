@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gestão Financeira Pessoal: Receitas, Despesas e Poupança</title>
-<meta name="description" content="Ferramenta gratuita de gestão financeira pessoal: regista receitas e despesas, calcula a poupança mensal automaticamente e prepara-te para investir.">
+<meta name="description" content="Ferramenta de gestão financeira pessoal: regista receitas e despesas, calcula a poupança mensal automaticamente e prepara-te para investir.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -61,6 +61,32 @@
     margin:0;
     font-size:0.84rem;
   }
+  .how-it-works{
+    margin-top:10px;
+  }
+  .how-it-works summary{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    color:var(--primary);
+    font-weight:600;
+    font-size:0.84rem;
+    cursor:pointer;
+    list-style:none;
+  }
+  .how-it-works summary::-webkit-details-marker{display:none;}
+  .how-it-works summary::before{
+    content:'▸';
+    font-size:0.7rem;
+    transition:transform .15s ease;
+  }
+  .how-it-works[open] summary::before{transform:rotate(90deg);}
+  .how-it-works summary:hover{color:var(--highlight-dark);}
+  .how-it-works summary:focus-visible{outline:2px solid var(--primary); outline-offset:3px; border-radius:2px;}
+  .how-it-works p{margin-top:8px;}
+  .how-it-works ul{margin:8px 0 0; padding-left:1.15em; color:var(--ink-soft); font-size:0.84rem; line-height:1.55;}
+  .how-it-works ul li{margin-bottom:4px;}
+  .how-it-works ul li:last-child{margin-bottom:0;}
   .panel{
     background:var(--paper);
     border:1px solid var(--line);
@@ -325,13 +351,76 @@
     font-family:'Public Sans', sans-serif; font-size:0.9rem; margin-bottom:14px;
   }
   .modal-actions{display:flex; justify-content:flex-end; gap:8px;}
+
+  .ad-anchor{display:none;}
+  @media (max-width:600px){
+    header{margin-bottom:20px;}
+    h1{font-size:1.15rem; margin-bottom:10px; padding-bottom:6px;}
+    h1::after{width:44px; height:3px;}
+    .lead{font-size:0.78rem; line-height:1.45;}
+    .how-it-works{margin-top:6px;}
+    .how-it-works summary{font-size:0.78rem;}
+    .how-it-works p, .how-it-works ul{font-size:0.78rem;}
+
+    body{padding-bottom:96px;}
+    .ad-anchor{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:fixed;
+      left:0; right:0; bottom:0;
+      height:52px;
+      background:var(--paper);
+      border-top:1px dashed var(--line);
+      box-shadow:0 -4px 12px rgba(15,27,56,0.12);
+      z-index:150;
+    }
+    .ad-anchor-label{
+      color:var(--ink-soft);
+      font-size:0.68rem;
+      letter-spacing:0.04em;
+      text-transform:uppercase;
+    }
+    .ad-anchor-close{
+      position:absolute;
+      right:8px; top:50%; transform:translateY(-50%);
+      width:22px; height:22px;
+      border-radius:50%;
+      border:1px solid var(--line);
+      background:var(--paper);
+      color:var(--ink-soft);
+      font-size:0.7rem;
+      line-height:1;
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      padding:0;
+    }
+    .ad-anchor-close:hover{border-color:var(--primary); color:var(--primary);}
+    body.ad-anchor-closed{padding-bottom:40px;}
+    body.ad-anchor-closed .ad-anchor{display:none;}
+  }
+
+  button:disabled, button.primary:disabled{opacity:0.45;cursor:not-allowed;}
+  button:disabled:hover, button.primary:disabled:hover{background:var(--paper);border-color:var(--line);}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <h1>Gestão Financeira Pessoal: Receitas, Despesas, Poupança e Investimento</h1>
-    <p>Uma ferramenta gratuita de gestão financeira pessoal para organizares as tuas receitas e despesas mês a mês e perceberes, sem esforço, quanto poupas — o primeiro passo antes de começares a investir. Em vez de teres de categorizar cada despesa (o que ninguém mantém a longo prazo), preenches os rendimentos (fixos e extra) e os saldos das contas; a poupança é calculada automaticamente pela variação do teu património. As colunas são exemplificativas — edita o nome, remove ou acrescenta conforme a tua situação financeira.</p>
+    <p class="lead">Ferramenta de gestão financeira pessoal: regista as tuas receitas e despesas mês a mês e descobre, sem esforço, quanto poupas — o primeiro passo antes de começares a investir.</p>
+    <details class="how-it-works">
+      <summary>Saber como funciona</summary>
+      <p>Em vez de teres de categorizar cada despesa — o que ninguém mantém a longo prazo — o método baseia-se na variação do teu património de mês para mês:</p>
+      <ul>
+        <li>Regista os rendimentos fixos e extra de cada mês.</li>
+        <li>Regista os saldos de todas as tuas contas bancárias.</li>
+        <li>A poupança é calculada automaticamente pela diferença de património face ao mês anterior.</li>
+        <li>As colunas são editáveis — renomeia, remove ou acrescenta categorias conforme a tua situação financeira.</li>
+        <li>Os dados ficam guardados automaticamente neste browser; usa "Exportar backup (JSON)" para teres sempre uma cópia de segurança e nunca perderes o teu histórico — é também o único ficheiro que consegues reimportar aqui.</li>
+      </ul>
+      <p>Esta é também a base para começares a acompanhar os teus investimentos — como ETFs — com valorização mensal, rentabilidade anualizada e rentabilidade a 12 meses.</p>
+    </details>
   </header>
 
   <div class="panel">
@@ -390,19 +479,24 @@
 
 <div class="floating-tooltip hidden" id="floatingTooltip"></div>
 
+<div class="ad-anchor" id="adAnchor" role="complementary" aria-label="Espaço reservado para anúncio">
+  <span class="ad-anchor-label">Espaço reservado para anúncio (Google AdSense)</span>
+  <button class="ad-anchor-close" id="adAnchorClose" aria-label="Fechar anúncio" type="button">✕</button>
+</div>
+
 <script>
 const GROUPS = {
   fixedIncomeCats: { key:'fixedIncome', label:'Rendimentos Fixos' },
   extraIncomeCats: { key:'extraIncome', label:'Rendimentos Extra' },
   extraCats:        { key:'extra',       label:'Despesa Extra' },
-  accountCats:      { key:'accounts',    label:'Contas' },
+  accountCats:      { key:'accounts',    label:'Saldos de contas' },
 };
 
-const state = {
+const DEFAULT_STATE = {
   fixedIncomeCats: ["Salário líquido", "Subsídio Alimentação", "Outros (ex: combustível)"],
   extraIncomeCats: ["Ex: IRS, venda"],
   extraCats: ["Ex: IRS a pagar"],
-  accountCats: ["Conta"],
+  accountCats: ["Banco A", "Banco B"],
   recurring: {
     fixedIncome: {"Salário líquido":true, "Subsídio Alimentação":true, "Outros (ex: combustível)":false},
     extraIncome: {"Ex: IRS, venda":false},
@@ -413,19 +507,26 @@ const state = {
       fixedIncome:{"Salário líquido":1450,"Subsídio Alimentação":150,"Outros (ex: combustível)":0},
       extraIncome:{"Ex: IRS, venda":0},
       extra:{"Ex: IRS a pagar":0},
-      accounts:{"Conta":3200} },
+      accounts:{"Banco A":2000,"Banco B":1200} },
     { date:"2026-09-15",
       fixedIncome:{"Salário líquido":1450,"Subsídio Alimentação":150,"Outros (ex: combustível)":0},
       extraIncome:{"Ex: IRS, venda":0},
       extra:{"Ex: IRS a pagar":0},
-      accounts:{"Conta":3410} },
+      accounts:{"Banco A":2150,"Banco B":1260} },
     { date:"2026-10-15",
       fixedIncome:{"Salário líquido":1450,"Subsídio Alimentação":150,"Outros (ex: combustível)":0},
       extraIncome:{"Ex: IRS, venda":300},
       extra:{"Ex: IRS a pagar":220},
-      accounts:{"Conta":3520} },
+      accounts:{"Banco A":2200,"Banco B":1320} },
+    { date:"2026-11-15",
+      fixedIncome:{"Salário líquido":1450,"Subsídio Alimentação":150,"Outros (ex: combustível)":0},
+      extraIncome:{"Ex: IRS, venda":0},
+      extra:{"Ex: IRS a pagar":0},
+      accounts:{"Banco A":2350,"Banco B":1380} },
   ]
 };
+
+const state = JSON.parse(JSON.stringify(DEFAULT_STATE));
 
 const fmtEUR = v => (v===null||v===undefined||isNaN(v)) ? "—" :
   v.toLocaleString('pt-PT', {style:'currency', currency:'EUR', maximumFractionDigits:0});
@@ -496,7 +597,7 @@ document.addEventListener('click', e=>{
   }
 });
 
-function openModal({message, withInput=false, inputValue='', confirmOnly=false, confirmLabel='Confirmar', allowHtml=false}){
+function openModal({message, withInput=false, inputValue='', confirmOnly=false, confirmLabel='Confirmar', allowHtml=false, requireMatch=null}){
   return new Promise(resolve=>{
     const msgEl = document.getElementById('modalMessage');
     if(allowHtml){ msgEl.innerHTML = message; } else { msgEl.textContent = message; }
@@ -510,6 +611,13 @@ function openModal({message, withInput=false, inputValue='', confirmOnly=false, 
       setTimeout(()=>{ input.focus(); input.select(); }, 30);
     } else {
       inputWrap.classList.add('hidden');
+    }
+    if(requireMatch){
+      confirmBtn.disabled = true;
+      input.oninput = ()=>{ confirmBtn.disabled = input.value.trim().toUpperCase() !== requireMatch.toUpperCase(); };
+    } else {
+      confirmBtn.disabled = false;
+      input.oninput = null;
     }
     cancelBtn.style.display = confirmOnly ? 'none' : 'inline-block';
     document.getElementById('modalOverlay').classList.remove('hidden');
@@ -665,7 +773,7 @@ function render(){
   groupRow.appendChild(groupHeaderCell('Rendimentos Fixos', state.fixedIncomeCats.length, 'fixedIncomeCats'));
   groupRow.appendChild(groupHeaderCell('Rendimentos Extra', state.extraIncomeCats.length, 'extraIncomeCats'));
   groupRow.appendChild(groupHeaderCell('Despesa Extra', state.extraCats.length, 'extraCats'));
-  groupRow.appendChild(groupHeaderCell('Contas', state.accountCats.length, 'accountCats',
+  groupRow.appendChild(groupHeaderCell('Saldos de contas', state.accountCats.length, 'accountCats',
     'Inclui contas à ordem e a prazo. Os juros de contas a prazo são normalmente tão reduzidos que não entram no cálculo de rentabilidade de investimentos — servem aqui apenas para refletir o património total.'));
   groupRow.appendChild(groupHeaderCell('Cálculo automático', 5, null));
   const rowActTh = document.createElement('th'); rowActTh.rowSpan=2; rowActTh.setAttribute('aria-label','Ações'); rowActTh.style.fontWeight='600'; rowActTh.style.fontSize='0.72rem'; rowActTh.style.color='var(--ink-soft)'; groupRow.appendChild(rowActTh);
@@ -945,16 +1053,17 @@ async function importBackup(file){
 }
 
 async function clearAllData(){
-  const ok = await openModal({
-    message:'Isto vai apagar TODOS os meses e valores preenchidos nesta tabela, sem possibilidade de recuperar (a não ser que tenhas um backup exportado). Tens a certeza que queres continuar?',
-    confirmLabel:'Limpar tudo'
+  const confirmWord = 'APAGAR';
+  const typed = await openModal({
+    message:'Isto vai apagar TODOS os meses e valores preenchidos nesta tabela — incluindo a cópia guardada automaticamente neste browser — sem possibilidade de recuperar (a não ser que tenhas um backup exportado). A tabela volta a mostrar os 4 meses de exemplo padrão. Para confirmares, escreve "'+confirmWord+'" na caixa abaixo.',
+    withInput:true,
+    inputValue:'',
+    confirmLabel:'Limpar tudo',
+    requireMatch:confirmWord
   });
-  if(!ok) return;
-  const fixedIncome = {}; state.fixedIncomeCats.forEach(c=>fixedIncome[c]=0);
-  const extraIncome = {}; state.extraIncomeCats.forEach(c=>extraIncome[c]=0);
-  const extra = {}; state.extraCats.forEach(c=>extra[c]=0);
-  const accounts = {}; state.accountCats.forEach(c=>accounts[c]=0);
-  state.rows = [{date:'', fixedIncome, extraIncome, extra, accounts}];
+  if(!typed) return;
+  if(storageAvailable){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){ /* ignora */ } }
+  Object.assign(state, JSON.parse(JSON.stringify(DEFAULT_STATE)));
   render();
 }
 
@@ -987,6 +1096,11 @@ document.getElementById('tableScroll').addEventListener('scroll', updateScrollFa
 window.addEventListener('resize', updateScrollFades);
 new ResizeObserver(updateScrollFades).observe(document.getElementById('mainTable'));
 updateScrollFades();
+
+// Anúncio âncora (mockup): fixo no fundo em ecrãs pequenos, fechável — nunca empurra o conteúdo.
+document.getElementById('adAnchorClose').onclick = ()=>{
+  document.body.classList.add('ad-anchor-closed');
+};
 </script>
 </body>
 </html>
